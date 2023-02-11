@@ -3,31 +3,33 @@ package ru.yandex.practicum.filmorate.validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import ru.yandex.practicum.filmorate.controller.Controller;
+import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validator.impl.FilmValidator;
+
 import java.time.LocalDate;
 
 public class FilmValidatorTest {
     private Film film;
-    private final Validator<Film> validator = new FilmValidator();
+    private final Controller<Film> controller = new FilmController();
 
     @BeforeEach
     void beforeEach() {
-        film = new Film(
-    "Casino Royale",
-"Special Agent James Bond embarks on a mission to " +
-                "prevent Le Chiffre, a mob banker, from winning a high" +
-                " stakes poker game. He is aided by Vesper Lynd, a British Treasury agent.",
-            LocalDate.of(2006, 11, 16),
-    144
-        );
+        film = new Film();
+        film.setName("Casino Royale");
+        film.setDescription("Special Agent James Bond embarks on a mission to " +
+                                "prevent Le Chiffre, a mob banker, from winning a high" +
+                                    " stakes poker game. He is aided by Vesper Lynd, a British Treasury agent.");
+        film.setReleaseDate(LocalDate.of(2006, 11, 16));
+        film.setDuration(144);
     }
 
     @Test
     void validateNullName() {
         film.setName(null);
-        Exception exception = Assertions.assertThrows(ValidationException.class, () -> validator.validate(film));
+        Exception exception = Assertions.assertThrows(MethodArgumentNotValidException.class, () -> controller.create(film));
         String expectedMessage = "Film name is NULL";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage), "Name is not NULL");
@@ -36,7 +38,7 @@ public class FilmValidatorTest {
     @Test
     void validateBlankName() {
         film.setName("");
-        Exception exception = Assertions.assertThrows(ValidationException.class, () -> validator.validate(film));
+        Exception exception = Assertions.assertThrows(MethodArgumentNotValidException.class, () -> controller.create(film));
         String expectedMessage = "Film name is blank";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage), "Name is not blank");
@@ -60,7 +62,7 @@ public class FilmValidatorTest {
                 "features primarily practical stuntwork as opposed to the computer-generated placements " +
                 "seen in other Bond films."
         );
-        Exception exception = Assertions.assertThrows(ValidationException.class, () -> validator.validate(film));
+        Exception exception = Assertions.assertThrows(MethodArgumentNotValidException.class, () -> controller.create(film));
         String expectedMessage = "Description length more than 200 symbols";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage), "Description length is not more than 200 symbols");
@@ -69,7 +71,7 @@ public class FilmValidatorTest {
     @Test
     void validateReleaseDate() {
         film.setReleaseDate(LocalDate.of(1812, 11, 16));
-        Exception exception = Assertions.assertThrows(ValidationException.class, () -> validator.validate(film));
+        Exception exception = Assertions.assertThrows(ValidationException.class, () -> controller.create(film));
         String expectedMessage = "Release date is earlier 1895-12-28";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage), "Release date is later 1895-12-28");
@@ -78,7 +80,7 @@ public class FilmValidatorTest {
     @Test
     void validateDuration() {
         film.setDuration(-144);
-        Exception exception = Assertions.assertThrows(ValidationException.class, () -> validator.validate(film));
+        Exception exception = Assertions.assertThrows(MethodArgumentNotValidException.class, () -> controller.create(film));
         String expectedMessage = "Duration is negative";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage), "Duration is positive");

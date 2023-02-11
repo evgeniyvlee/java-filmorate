@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -16,15 +17,17 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController extends Controller<User> {
 
+    @Override
     @GetMapping
     public List<User> getAll() {
-        log.info("Getting all users");
+        log.info(Messages.GET.toString());
         return super.getAll();
     }
 
+    @Override
     @PostMapping
-    public User create(@RequestBody User user) throws ValidationException {
-        log.info("Creating user {}", user);
+    public User create(@Valid @RequestBody User user) throws ValidationException {
+        log.info(Messages.CREATE.toString(), user);
         User createdUser = null;
         try {
             createdUser = super.create(user);
@@ -35,9 +38,10 @@ public class UserController extends Controller<User> {
         return createdUser;
     }
 
+    @Override
     @PutMapping
-    public User update(@RequestBody User user) throws ValidationException {
-        log.info("Updating user {}", user);
+    public User update(@Valid @RequestBody User user) throws ValidationException {
+        log.info(Messages.UPDATE.toString(), user);
         User updatedUser = null;
         try {
             updatedUser = super.update(user);

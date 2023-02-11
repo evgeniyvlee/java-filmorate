@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -19,25 +20,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/films")
 public class FilmController extends Controller<Film> {
-    /**
-     * Get all films from storage
-     * @return list of data
-     */
+
+    @Override
     @GetMapping
     public List<Film> getAll() {
-        log.info("Getting all films");
+        log.info(Messages.GET.toString());
         return super.getAll();
     }
 
-    /**
-     * Create film data instance in storage
-     * @param film film instance
-     * @return created film
-     * @throws ValidationException if validation error occurs
-     */
+    @Override
     @PostMapping
-    public Film create(@RequestBody Film film) throws ValidationException {
-        log.info("Creating film {}", film);
+    public Film create(@Valid @RequestBody Film film) throws ValidationException {
+        log.info(Messages.CREATE.toString(), film);
         Film createdFilm = null;
         try {
             createdFilm = super.create(film);
@@ -48,15 +42,10 @@ public class FilmController extends Controller<Film> {
         return createdFilm;
     }
 
-    /**
-     * Update film instance in storage
-     * @param film film instance
-     * @return updated film
-     * @throws ValidationException if validation error occurs
-     */
+    @Override
     @PutMapping
-    public Film update(@RequestBody Film film) throws ValidationException {
-        log.info("Updating film {}", film);
+    public Film update(@Valid @RequestBody Film film) throws ValidationException {
+        log.info(Messages.UPDATE.toString(), film);
         Film updatedFilm = null;
         try {
             updatedFilm = super.update(film);
