@@ -35,7 +35,7 @@ public class FilmController extends Controller<Film> {
         Film createdFilm = null;
         try {
             createdFilm = super.create(film);
-        } catch (ValidationException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
         }
@@ -49,7 +49,7 @@ public class FilmController extends Controller<Film> {
         Film updatedFilm = null;
         try {
             updatedFilm = super.update(film);
-        } catch (ValidationException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
         }
