@@ -15,7 +15,7 @@ public class User extends Data {
     private String email;
     // User login
     @NotBlank(message = "User login is blank")
-    @Pattern(regexp = "[ ]+", message = "User login contains spaces")
+    @Pattern(regexp = "^[^<\\s>]+$", message = "User login contains spaces")
     private String login;
     // User name
     private String name;
