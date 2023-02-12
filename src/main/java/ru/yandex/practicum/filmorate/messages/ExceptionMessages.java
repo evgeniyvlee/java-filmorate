@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.exception;
+package ru.yandex.practicum.filmorate.messages;
 
 public interface ExceptionMessages {
     String FILM_NAME_BLANK = "Film name is blank";

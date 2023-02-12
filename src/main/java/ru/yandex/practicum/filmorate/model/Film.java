@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
-import ru.yandex.practicum.filmorate.exception.ExceptionMessages;
+import ru.yandex.practicum.filmorate.messages.ExceptionMessages;
 import ru.yandex.practicum.filmorate.validation.constraints.Release;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
