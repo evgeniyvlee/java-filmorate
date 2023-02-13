@@ -1,5 +1,9 @@
 package ru.yandex.practicum.filmorate.messages;
 
+/**
+ * Messages if errors occurs
+ * @author Evgeniy Lee
+ */
 public interface ExceptionMessages {
     String FILM_NAME_BLANK = "Film name is blank";
     String FILM_DESCRIPTION_TOO_LONG = "Description length more than 200 symbols";
@@ -12,4 +16,5 @@ public interface ExceptionMessages {
     String USER_LOGIN_CONTAINS_SPACES = "User login contains spaces";
     String USER_BIRTHDAY_NULL = "User birthday is NULL";
     String USER_BIRTHDAY_IN_FUTURE = "User birthday in future";
+    String DATA_NOT_FOUND = "Data not found";
 }

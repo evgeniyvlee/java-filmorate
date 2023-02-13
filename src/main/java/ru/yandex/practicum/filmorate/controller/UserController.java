@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.messages.LoggingMessages;
 import ru.yandex.practicum.filmorate.model.User;
 import javax.validation.Valid;
 import java.util.List;
@@ -20,35 +21,21 @@ public class UserController extends Controller<User> {
     @Override
     @GetMapping
     public List<User> getAll() {
-        log.info(Messages.GET.toString());
+        log.info(LoggingMessages.GET.toString());
         return super.getAll();
     }
 
     @Override
     @PostMapping
-    public User create(@Valid @RequestBody User user) throws ValidationException {
-        log.info(Messages.CREATE.toString(), user);
-        User createdUser = null;
-        try {
-            createdUser = super.create(user);
-        } catch (ValidationException e) {
-            log.error(e.getMessage());
-            throw e;
-        }
-        return createdUser;
+    public User create(@Valid @RequestBody User user) {
+        log.info(LoggingMessages.CREATE.toString(), user);
+        return super.create(user);
     }
 
     @Override
     @PutMapping
     public User update(@Valid @RequestBody User user) throws ValidationException {
-        log.info(Messages.UPDATE.toString(), user);
-        User updatedUser = null;
-        try {
-            updatedUser = super.update(user);
-        } catch (ValidationException e) {
-            log.error(e.getMessage());
-            throw e;
-        }
-        return updatedUser;
+        log.info(LoggingMessages.UPDATE.toString(), user);
+        return super.update(user);
     }
 }
