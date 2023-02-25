@@ -72,16 +72,33 @@ public class FilmController implements Controller<Film> {
         service.delete(id);
     }
 
+    /**
+     * Add like to film
+     * @param id film ID
+     * @param userId user ID who sent like
+     * @throws DataNotFoundException occurs if film or user not found
+     */
     @PutMapping("{id}/like/{userId}")
     public void addLike(@PathVariable long id, @PathVariable long userId) throws DataNotFoundException {
         service.addLike(id, userId);
     }
 
+    /**
+     * Remove like from film
+     * @param id film ID
+     * @param userId user ID who sent like
+     * @throws DataNotFoundException occurs if film or user not found
+     */
     @DeleteMapping("{id}/like/{userId}")
     public void removeLike(@PathVariable long id, @PathVariable long userId) throws DataNotFoundException {
         service.removeLike(id, userId);
     }
 
+    /**
+     * Get list of popular films
+     * @param count popular film count default value is 10
+     * @return list of popular films
+     */
     @GetMapping("/popular")
     public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
         return service.getPopular(count);

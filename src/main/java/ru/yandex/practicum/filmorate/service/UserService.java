@@ -11,19 +11,19 @@ import java.util.List;
 public interface UserService extends Service<User> {
     /**
      * Add friend to user
-     * @param userId user ID
+     * @param id user ID
      * @param friendId friend ID
      * @throws DataNotFoundException occurs if user or friend not found
      */
-    void addFriend(long userId, long friendId) throws DataNotFoundException;
+    void addFriend(long id, long friendId) throws DataNotFoundException;
 
     /**
      * Remove friend to user
-     * @param userId user ID
+     * @param id user ID
      * @param friendId friend ID
      * @throws DataNotFoundException occurs if user or friend not found
      */
-    void removeFriend(long userId, long friendId) throws DataNotFoundException;
+    void removeFriend(long id, long friendId) throws DataNotFoundException;
 
     /**
      * Get list of friends for user with ID

@@ -38,6 +38,9 @@ public class UserController implements Controller<User> {
         this.service = service;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @GetMapping
     public List<User> getAll() {
@@ -45,6 +48,9 @@ public class UserController implements Controller<User> {
         return service.getAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @PostMapping
     public User create(@Valid @RequestBody User user) throws DataAlreadyExistException {
@@ -52,6 +58,9 @@ public class UserController implements Controller<User> {
         return service.create(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @PutMapping
     public User update(@Valid @RequestBody User user) throws DataNotFoundException {
@@ -59,34 +68,65 @@ public class UserController implements Controller<User> {
         return service.update(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @GetMapping("{id}")
     public User get(@PathVariable long id) throws DataNotFoundException {
         return service.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @DeleteMapping
     public void delete(@PathVariable long id) throws DataNotFoundException {
         service.delete(id);
     }
 
+    /**
+     * Add friend to user
+     * @param id user ID
+     * @param friendId friend ID
+     * @throws DataNotFoundException occurs if user or friend not found
+     */
     @PutMapping("{id}/friends/{friendId}")
     public void addFriend(@PathVariable long id, @PathVariable long friendId) throws DataNotFoundException {
         service.addFriend(id, friendId);
     }
 
+    /**
+     * Remove friend to user
+     * @param id user ID
+     * @param friendId friend ID
+     * @throws DataNotFoundException occurs if user or friend not found
+     */
     @DeleteMapping("{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable long id, @PathVariable long friendId) throws DataNotFoundException {
         service.removeFriend(id, friendId);
     }
 
+    /**
+     * Get list of friends for user with ID
+     * @param id user ID
+     * @return list of friends
+     * @throws DataNotFoundException occurs if user not found
+     */
     @GetMapping("{id}/friends")
     public List<User> getFriends(@PathVariable long id) throws DataNotFoundException {
         List<User> list = service.getFriends(id);
         return list;
     }
 
+    /**
+     * Get common friends for users with IDs
+     * @param id user ID
+     * @param otherId other user ID
+     * @return list of common friends
+     * @throws DataNotFoundException if user or other user not found
+     */
     @GetMapping("{id}/friends/common/{otherId}")
     public List<User> getCommonFriends(@PathVariable long id, @PathVariable long otherId) throws DataNotFoundException {
         return service.getCommonFriends(id, otherId);
