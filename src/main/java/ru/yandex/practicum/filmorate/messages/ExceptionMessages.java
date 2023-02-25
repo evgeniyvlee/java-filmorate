@@ -17,4 +17,5 @@ public interface ExceptionMessages {
     String USER_BIRTHDAY_NULL = "User birthday is NULL";
     String USER_BIRTHDAY_IN_FUTURE = "User birthday in future";
     String DATA_NOT_FOUND = "Data not found";
+    String DATA_ALREADY_EXIST = "Data is already exist";
 }

@@ -1,9 +1,8 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.exception.DataAlreadyExistException;
+import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.Data;
-import ru.yandex.practicum.filmorate.service.ModelService;
 import java.util.List;
 
 /**
@@ -11,34 +10,28 @@ import java.util.List;
  * @param <T> data type
  * @author Evgeniy Lee
  */
-public abstract class Controller<T extends Data> {
-    // Service for creating, updating and getting data
-    @Autowired
-    private ModelService<T> service;
-
+public interface Controller<T extends Data> {
     /**
      * Get all data from storage
      * @return list of data
      */
-    public List<T> getAll() {
-        return service.getAll();
-    }
+    List<T> getAll();
 
     /**
      * Create new data instance in storage
      * @param data data instance
      * @return created data
      */
-    public T create(final T data) {
-        return service.create(data);
-    }
+    T create(T data) throws DataAlreadyExistException;
 
     /**
      * Update data instance in storage
      * @param data data instance
      * @return updated data
      */
-    public T update(final T data) throws ValidationException {
-        return service.update(data);
-    }
+    T update(T data) throws DataNotFoundException;
+
+    T get(long id) throws DataNotFoundException;
+
+    void delete(long id) throws DataNotFoundException;
 }

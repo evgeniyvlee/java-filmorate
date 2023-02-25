@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import ru.yandex.practicum.filmorate.messages.ExceptionMessages;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Email;
@@ -7,6 +9,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User type
@@ -28,4 +33,8 @@ public class User extends Data {
     @NotNull(message = ExceptionMessages.USER_BIRTHDAY_NULL)
     @Past(message = ExceptionMessages.USER_BIRTHDAY_IN_FUTURE)
     private LocalDate birthday;
+    // User friend IDs
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    private final Set<Long> friendIds = new HashSet<>();
 }

@@ -15,6 +15,9 @@ import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.model.Film;
 import java.time.LocalDate;
 import com.google.gson.Gson;
+import ru.yandex.practicum.filmorate.service.impl.FilmServiceImpl;
+import ru.yandex.practicum.filmorate.storage.memory.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.memory.InMemoryUserStorage;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -133,7 +136,10 @@ public class FilmControllerTest {
         public static class MockDependencies {
         @Bean
         public MockMvc mvc() {
-            return MockMvcBuilders.standaloneSetup(new FilmController()).build();
+            return MockMvcBuilders.standaloneSetup(
+                    new FilmController(
+                            new FilmServiceImpl(new InMemoryFilmStorage(), new InMemoryUserStorage()))
+                ).build();
         }
     }
 }
