@@ -25,7 +25,6 @@ public abstract class AbstractService<T extends Data> implements Service<T> {
      * Constructor
      * @param storage storage instance
      */
-    @Autowired
     protected AbstractService(final Storage<T> storage) {
         this.storage = storage;
     }
@@ -44,7 +43,7 @@ public abstract class AbstractService<T extends Data> implements Service<T> {
      * {@inheritDoc}
      */
     @Override
-    public T create(final T data) throws DataAlreadyExistException {
+    public T create(final T data) {
         data.setId(++ids);
         storage.create(data);
         log.info(LoggingMessages.SUCCESSFUL_CREATE.toString(), data);
@@ -55,7 +54,7 @@ public abstract class AbstractService<T extends Data> implements Service<T> {
      * {@inheritDoc}
      */
     @Override
-    public T update(final T data) throws DataNotFoundException {
+    public T update(final T data) {
         storage.update(data);
         log.info(LoggingMessages.SUCCESSFUL_UPDATE.toString(), data);
         return data;
@@ -65,7 +64,7 @@ public abstract class AbstractService<T extends Data> implements Service<T> {
      * {@inheritDoc}
      */
     @Override
-    public T get(final long id) throws DataNotFoundException {
+    public T get(final long id) {
         final T data = storage.get(id);
         log.info(LoggingMessages.GET_DATA_BY_ID.toString(), data);
         return data;
@@ -75,7 +74,7 @@ public abstract class AbstractService<T extends Data> implements Service<T> {
      * {@inheritDoc}
      */
     @Override
-    public void delete(final long id) throws DataNotFoundException {
+    public void delete(final long id) {
         storage.delete(id);
         log.info(LoggingMessages.DELETE_DATA_BY_ID.toString(), id);
     }

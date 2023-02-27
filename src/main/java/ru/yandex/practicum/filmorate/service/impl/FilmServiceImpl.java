@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.AbstractService;
@@ -27,7 +25,6 @@ public class FilmServiceImpl extends AbstractService<Film> implements FilmServic
      * @param filmStorage film storage
      * @param userStorage user storage
      */
-    @Autowired
     public FilmServiceImpl(final Storage<Film> filmStorage, final Storage<User> userStorage) {
         super(filmStorage);
         this.userStorage = userStorage;
@@ -37,7 +34,7 @@ public class FilmServiceImpl extends AbstractService<Film> implements FilmServic
      * {@inheritDoc}
      */
     @Override
-    public void addLike(final long id, final long userId) throws DataNotFoundException {
+    public void addLike(final long id, final long userId) {
         final Film film = super.get(id);
         final User user = userStorage.get(userId);
         film.getUserIds().add(userId);
@@ -47,7 +44,7 @@ public class FilmServiceImpl extends AbstractService<Film> implements FilmServic
      * {@inheritDoc}
      */
     @Override
-    public void removeLike(final long id, final long userId) throws DataNotFoundException {
+    public void removeLike(final long id, final long userId) {
         final Film film = super.get(id);
         final User user = userStorage.get(userId);
         film.getUserIds().remove(userId);

@@ -27,7 +27,7 @@ public abstract class DataStorage<T extends Data> implements Storage<T> {
      * {@inheritDoc}
      */
     @Override
-    public void create(T data) throws DataAlreadyExistException {
+    public void create(T data) {
         final long id = data.getId();
         if (storage.get(id) != null) {
             log.error(LoggingMessages.DATA_ALREADY_EXIST.toString(), data);
@@ -40,7 +40,7 @@ public abstract class DataStorage<T extends Data> implements Storage<T> {
      * {@inheritDoc}
      */
     @Override
-    public T get(long id) throws DataNotFoundException {
+    public T get(long id) {
         final T data = storage.get(id);
         if (data == null) {
             log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
@@ -53,12 +53,10 @@ public abstract class DataStorage<T extends Data> implements Storage<T> {
      * {@inheritDoc}
      */
     @Override
-    public void update(T data) throws DataNotFoundException {
+    public void update(T data) {
         final long id = data.getId();
-        if (storage.get(id) == null) {
-            log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
-            throw new DataNotFoundException(ExceptionMessages.DATA_NOT_FOUND);
-        }
+        if (get(id) == null)
+            return;
         storage.put(id, data);
     }
 
@@ -66,11 +64,9 @@ public abstract class DataStorage<T extends Data> implements Storage<T> {
      * {@inheritDoc}
      */
     @Override
-    public void delete(long id) throws DataNotFoundException {
-        if (storage.get(id) == null) {
-            log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
-            throw new DataNotFoundException(ExceptionMessages.DATA_NOT_FOUND);
-        }
+    public void delete(long id) {
+        if (get(id) == null)
+            return;
         storage.remove(id);
     }
 

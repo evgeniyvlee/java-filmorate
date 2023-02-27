@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.yandex.practicum.filmorate.exception.DataAlreadyExistException;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.messages.LoggingMessages;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -34,7 +31,6 @@ public class FilmController implements Controller<Film> {
      * Constructor
      * @param service film service instance
      */
-    @Autowired
     public FilmController(final FilmService service) {
         this.service = service;
     }
@@ -48,27 +44,29 @@ public class FilmController implements Controller<Film> {
 
     @Override
     @PostMapping
-    public Film create(@Valid @RequestBody Film film) throws DataAlreadyExistException {
+    public Film create(@Valid @RequestBody Film film) {
         log.info(LoggingMessages.CREATE.toString(), film);
         return service.create(film);
     }
 
     @Override
     @PutMapping
-    public Film update(@Valid @RequestBody Film film) throws DataNotFoundException {
+    public Film update(@Valid @RequestBody Film film) {
         log.info(LoggingMessages.UPDATE.toString(), film);
         return service.update(film);
     }
 
     @Override
     @GetMapping("{id}")
-    public Film get(@PathVariable long id) throws DataNotFoundException {
+    public Film get(@PathVariable long id) {
+        log.info(LoggingMessages.GET_BY_ID.toString(), id);
         return service.get(id);
     }
 
     @Override
     @DeleteMapping
-    public void delete(@PathVariable long id) throws DataNotFoundException {
+    public void delete(@PathVariable long id) {
+        log.info(LoggingMessages.DELETE_BY_ID.toString(), id);
         service.delete(id);
     }
 
@@ -76,10 +74,10 @@ public class FilmController implements Controller<Film> {
      * Add like to film
      * @param id film ID
      * @param userId user ID who sent like
-     * @throws DataNotFoundException occurs if film or user not found
      */
     @PutMapping("{id}/like/{userId}")
-    public void addLike(@PathVariable long id, @PathVariable long userId) throws DataNotFoundException {
+    public void addLike(@PathVariable long id, @PathVariable long userId) {
+        log.info(LoggingMessages.ADD_LIKE.toString(), id, userId);
         service.addLike(id, userId);
     }
 
@@ -87,10 +85,10 @@ public class FilmController implements Controller<Film> {
      * Remove like from film
      * @param id film ID
      * @param userId user ID who sent like
-     * @throws DataNotFoundException occurs if film or user not found
      */
     @DeleteMapping("{id}/like/{userId}")
-    public void removeLike(@PathVariable long id, @PathVariable long userId) throws DataNotFoundException {
+    public void removeLike(@PathVariable long id, @PathVariable long userId) {
+        log.info(LoggingMessages.DELETE_LIKE.toString(), id, userId);
         service.removeLike(id, userId);
     }
 
@@ -101,6 +99,7 @@ public class FilmController implements Controller<Film> {
      */
     @GetMapping("/popular")
     public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
+        log.info(LoggingMessages.GET_POPULAR_FILMS.toString(), count);
         return service.getPopular(count);
     }
 }

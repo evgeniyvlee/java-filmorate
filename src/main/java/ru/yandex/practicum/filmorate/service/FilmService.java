@@ -13,17 +13,15 @@ public interface FilmService extends Service<Film> {
      * Add like to film
      * @param id film ID
      * @param userId user ID who sent like
-     * @throws DataNotFoundException occurs if film or user not found
      */
-    void addLike(long id, long userId) throws DataNotFoundException;
+    void addLike(long id, long userId);
 
     /**
      * Remove like from film
      * @param id film ID
      * @param userId user ID who sent like
-     * @throws DataNotFoundException occurs if film or user not found
      */
-    void removeLike(long id, long userId) throws DataNotFoundException;
+    void removeLike(long id, long userId);
 
     /**
      * Get list of popular films

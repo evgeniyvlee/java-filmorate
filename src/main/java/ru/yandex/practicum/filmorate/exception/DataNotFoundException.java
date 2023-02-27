@@ -4,7 +4,7 @@ package ru.yandex.practicum.filmorate.exception;
  * The DataNotFoundException is general class of exceptions produced by get and update methods for user and film storage.
  * @author Evgeniy Lee
  */
-public class DataNotFoundException extends Exception {
+public class DataNotFoundException extends RuntimeException {
     /**
      * Constructor
      * @param message exception message
