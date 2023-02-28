@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import ru.yandex.practicum.filmorate.messages.ExceptionMessages;
 import ru.yandex.practicum.filmorate.validation.constraints.Release;
 import javax.validation.constraints.NotNull;
@@ -7,6 +9,8 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Film type
@@ -27,4 +31,8 @@ public class Film extends Data {
     // Film duration in minutes
     @PositiveOrZero(message = ExceptionMessages.FILM_DURATION_NEGATIVE)
     private long duration;
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    private final Set<Long> userIds = new HashSet<>();
+
 }
