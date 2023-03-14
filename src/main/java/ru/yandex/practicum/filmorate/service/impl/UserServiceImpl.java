@@ -1,14 +1,13 @@
 package ru.yandex.practicum.filmorate.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import ru.yandex.practicum.filmorate.dao.UserDao;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.AbstractService;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.Storage;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * User service provides operations of creating, updating and getting for user data
@@ -18,8 +17,11 @@ import java.util.stream.Collectors;
 @org.springframework.stereotype.Service
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 
-    public UserServiceImpl(final Storage<User> userStorage) {
+    private final UserDao userDao;
+
+    public UserServiceImpl(@Qualifier("dbUserStorage") final Storage<User> userStorage, final UserDao userDao) {
         super(userStorage);
+        this.userDao = userDao;
     }
 
     /**
@@ -41,8 +43,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public void addFriend(final long id, final long friendId) {
         final User user = super.get(id);
         final User friend = super.get(friendId);
-        user.getFriendIds().add(friend.getId());
-        friend.getFriendIds().add(user.getId());
+        userDao.addFriend(user.getId(), friend.getId());
     }
 
     /**
@@ -52,8 +53,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public void removeFriend(final long id, final long friendId) {
         final User user = super.get(id);
         final User friend = super.get(friendId);
-        user.getFriendIds().remove(friend.getId());
-        friend.getFriendIds().remove(user.getId());
+        userDao.removeFriend(user.getId(), friend.getId());
     }
 
     /**
@@ -62,10 +62,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override
     public List<User> getFriends(final long id) {
         final User user = super.get(id);
-        final List<User> friends = user.getFriendIds().stream()
-                .map(userId -> storage.get(userId))
-                .collect(Collectors.toList());
-        return Collections.unmodifiableList(friends);
+        return userDao.getFriends(id);
     }
 
     /**
@@ -73,14 +70,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
      */
     @Override
     public List<User> getCommonFriends(final long id, final long otherId) {
-        final Set<Long> userFriendsIds = super.get(id).getFriendIds();
-        final Set<Long> otherUserFriendsIds = super.get(otherId).getFriendIds();
-
-        final List<User> commonFriends = userFriendsIds.stream()
-                .filter(userId -> otherUserFriendsIds.contains(userId))
-                .map(userId -> super.get(userId))
-                .collect(Collectors.toList());
-
-        return Collections.unmodifiableList(commonFriends);
+        final User user = super.get(id);
+        final User otherUser = super.get(otherId);
+        return userDao.getCommonFriends(user.getId(), otherUser.getId());
     }
 }

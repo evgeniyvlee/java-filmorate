@@ -1,9 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.practicum.filmorate.exception.DataAlreadyExistException;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.messages.LoggingMessages;
 import ru.yandex.practicum.filmorate.model.Data;
 import ru.yandex.practicum.filmorate.storage.Storage;

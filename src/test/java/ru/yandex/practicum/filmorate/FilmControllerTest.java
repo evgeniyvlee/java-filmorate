@@ -138,7 +138,7 @@ public class FilmControllerTest {
         public MockMvc mvc() {
             return MockMvcBuilders.standaloneSetup(
                     new FilmController(
-                            new FilmServiceImpl(new InMemoryFilmStorage(), new InMemoryUserStorage()))
+                            new FilmServiceImpl(new InMemoryFilmStorage(), new InMemoryUserStorage(), null))
                 ).build();
         }
     }

@@ -9,7 +9,9 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,6 +33,10 @@ public class Film extends Data {
     // Film duration in minutes
     @PositiveOrZero(message = ExceptionMessages.FILM_DURATION_NEGATIVE)
     private long duration;
+    // MPA
+    private Mpa mpa;
+    // Genres
+    private List<Genre> genres = new ArrayList<>();
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private final Set<Long> userIds = new HashSet<>();
