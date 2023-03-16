@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class DBUtils {
     public final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public static Film makeFilm(final ResultSet rs) throws SQLException {
+    public static Film makeFilm(final ResultSet rs, final long rowNum) throws SQLException {
         final Film film = new Film();
         final Mpa mpa = new Mpa();
         film.setId(rs.getLong("id"));
@@ -27,7 +27,7 @@ public class DBUtils {
         return film;
     }
 
-    public static User makeUser(final ResultSet rs) throws SQLException {
+    public static User makeUser(final ResultSet rs, final long rowNum) throws SQLException {
         final User user = new User();
         user.setId(rs.getLong("id"));
         user.setName(rs.getString("name"));
@@ -37,14 +37,14 @@ public class DBUtils {
         return user;
     }
 
-    public static Mpa makeMpa(final ResultSet rs) throws SQLException {
+    public static Mpa makeMpa(final ResultSet rs, final long rowNum) throws SQLException {
         final Mpa mpa = new Mpa();
         mpa.setId(rs.getLong("mpa_id"));
         mpa.setName(rs.getString("mpa_name"));
         return mpa;
     }
 
-    public static Genre makeGenre(final ResultSet rs) throws SQLException {
+    public static Genre makeGenre(final ResultSet rs, final long rowNum) throws SQLException {
         final Genre genre = new Genre();
         genre.setId(rs.getLong("genre_id"));
         genre.setName(rs.getString("genre_name"));

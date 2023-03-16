@@ -21,15 +21,15 @@ public class MpaDbStorage implements MpaStorage {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String CREATE_MPA_QUERY = "INSERT INTO mpa (name) VALUES (?)";
+    private final String CREATE_MPA_QUERY = "INSERT INTO mpa (name) VALUES (?)";
 
-    private final static String GET_MPA_BY_ID_QUERY = "SELECT m.id AS mpa_id, m.name AS mpa_name FROM mpa AS m WHERE m.id = ?";
+    private final String GET_MPA_BY_ID_QUERY = "SELECT m.id AS mpa_id, m.name AS mpa_name FROM mpa AS m WHERE m.id = ?";
 
-    private final static String GET_ALL_MPA_QUERY = "SELECT m.id AS mpa_id, m.name AS mpa_name FROM mpa AS m";
+    private final String GET_ALL_MPA_QUERY = "SELECT m.id AS mpa_id, m.name AS mpa_name FROM mpa AS m";
 
-    private static final String UPDATE_MPA_QUERY = "UPDATE mpa SET name = ? WHERE id = ?";
+    private final String UPDATE_MPA_QUERY = "UPDATE mpa SET name = ? WHERE id = ?";
 
-    private static final String DELETE_MPA_QUERY = "DELETE FROM mpa WHERE id = ?";
+    private final String DELETE_MPA_QUERY = "DELETE FROM mpa WHERE id = ?";
 
     public MpaDbStorage(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -42,7 +42,7 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa get(long id) {
-        final List<Mpa> mpaList = jdbcTemplate.query(GET_MPA_BY_ID_QUERY, (rs, rowNum) -> DBUtils.makeMpa(rs), id);
+        final List<Mpa> mpaList = jdbcTemplate.query(GET_MPA_BY_ID_QUERY, DBUtils::makeMpa, id);
         if (mpaList.isEmpty()) {
             log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
             throw new DataNotFoundException(ExceptionMessages.DATA_NOT_FOUND);
@@ -64,7 +64,7 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public List<Mpa> getAll() {
-        final List<Mpa> mpaList = jdbcTemplate.query(GET_ALL_MPA_QUERY, (rs, rowNum) -> DBUtils.makeMpa(rs));
+        final List<Mpa> mpaList = jdbcTemplate.query(GET_ALL_MPA_QUERY, DBUtils::makeMpa);
         return Collections.unmodifiableList(mpaList);
     }
 }

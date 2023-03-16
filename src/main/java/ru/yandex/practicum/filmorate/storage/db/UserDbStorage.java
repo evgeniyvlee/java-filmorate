@@ -24,15 +24,15 @@ public class UserDbStorage implements UserStorage {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final static String CREATE_USER_QUERY = "INSERT INTO users (name, login, email, birthday) VALUES (?, ?, ?, ?)";
+    private final String CREATE_USER_QUERY = "INSERT INTO users (name, login, email, birthday) VALUES (?, ?, ?, ?)";
 
-    private final static String GET_USER_BY_ID_QUERY = "SELECT id, name, login, email, birthday FROM users WHERE id = ?";
+    private final String GET_USER_BY_ID_QUERY = "SELECT id, name, login, email, birthday FROM users WHERE id = ?";
 
-    private final static String UPDATE_USER_QUERY = "UPDATE users SET name = ?, login = ?, email = ?, birthday = ? WHERE id = ?";
+    private final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, login = ?, email = ?, birthday = ? WHERE id = ?";
 
-    private static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
+    private final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users WHERE id = ?";
 
-    private static final String GET_USERS_QUERY = "SELECT id, name, login, email, birthday FROM users";
+    private final String GET_USERS_QUERY = "SELECT id, name, login, email, birthday FROM users";
 
     public UserDbStorage(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -51,7 +51,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User get(final long id) {
-        List<User> userList = jdbcTemplate.query(GET_USER_BY_ID_QUERY, (rs, rowNum) -> DBUtils.makeUser(rs), id);
+        List<User> userList = jdbcTemplate.query(GET_USER_BY_ID_QUERY, DBUtils::makeUser, id);
         if (userList.isEmpty()) {
             log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
             throw new DataNotFoundException(ExceptionMessages.DATA_NOT_FOUND);
@@ -80,7 +80,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getAll() {
-        final List<User> users = jdbcTemplate.query(GET_USERS_QUERY, (rs, rowNum) -> DBUtils.makeUser(rs));
+        final List<User> users = jdbcTemplate.query(GET_USERS_QUERY, DBUtils::makeUser);
         return Collections.unmodifiableList(users);
     }
 }

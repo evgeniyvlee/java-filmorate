@@ -9,9 +9,7 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +34,7 @@ public class Film extends Data {
     // MPA
     private Mpa mpa;
     // Genres
-    private List<Genre> genres = new ArrayList<>();
+    private Set<Genre> genres = new HashSet<>();
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private final Set<Long> userIds = new HashSet<>();

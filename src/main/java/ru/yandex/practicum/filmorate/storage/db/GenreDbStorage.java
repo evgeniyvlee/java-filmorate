@@ -21,15 +21,15 @@ public class GenreDbStorage implements GenreStorage {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String CREATE_MPA_QUERY = "INSERT INTO genre (name) VALUES (?)";
+    private final String CREATE_MPA_QUERY = "INSERT INTO genre (name) VALUES (?)";
 
-    private final static String GET_GENRE_BY_ID_QUERY = "SELECT g.id AS genre_id, g.name AS genre_name FROM genre AS g WHERE g.id = ?";
+    private final String GET_GENRE_BY_ID_QUERY = "SELECT g.id AS genre_id, g.name AS genre_name FROM genre AS g WHERE g.id = ?";
 
-    private final static String GET_ALL_GENRE_QUERY = "SELECT g.id AS genre_id, g.name AS genre_name FROM genre AS g";
+    private final String GET_ALL_GENRE_QUERY = "SELECT g.id AS genre_id, g.name AS genre_name FROM genre AS g";
 
-    private static final String UPDATE_GENRE_QUERY = "UPDATE genre SET name = ? WHERE id = ?";
+    private final String UPDATE_GENRE_QUERY = "UPDATE genre SET name = ? WHERE id = ?";
 
-    private static final String DELETE_GENRE_QUERY = "DELETE FROM genre WHERE id = ?";
+    private final String DELETE_GENRE_QUERY = "DELETE FROM genre WHERE id = ?";
 
     public GenreDbStorage(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -42,7 +42,7 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public Genre get(long id) {
-        final List<Genre> mpaList = jdbcTemplate.query(GET_GENRE_BY_ID_QUERY, (rs, rowNum) -> DBUtils.makeGenre(rs), id);
+        final List<Genre> mpaList = jdbcTemplate.query(GET_GENRE_BY_ID_QUERY, DBUtils::makeGenre, id);
         if (mpaList.isEmpty()) {
             log.error(LoggingMessages.ID_NOT_FOUND.toString(), id);
             throw new DataNotFoundException(ExceptionMessages.DATA_NOT_FOUND);
@@ -64,7 +64,7 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public List<Genre> getAll() {
-        final List<Genre> genreList = jdbcTemplate.query(GET_ALL_GENRE_QUERY, (rs, rowNum) -> DBUtils.makeGenre(rs));
+        final List<Genre> genreList = jdbcTemplate.query(GET_ALL_GENRE_QUERY, DBUtils::makeGenre);
         return Collections.unmodifiableList(genreList);
     }
 }
