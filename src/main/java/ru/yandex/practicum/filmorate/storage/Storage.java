@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import ru.yandex.practicum.filmorate.exception.DataAlreadyExistException;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.Data;
 import java.util.List;
 
@@ -11,6 +9,7 @@ import java.util.List;
  * @author Evgeniy Lee
  */
 public interface Storage<T extends Data> {
+
     /**
      * Put data in storage
      * @param data data

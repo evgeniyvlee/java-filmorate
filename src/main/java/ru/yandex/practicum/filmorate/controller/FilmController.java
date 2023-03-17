@@ -64,7 +64,7 @@ public class FilmController implements Controller<Film> {
     }
 
     @Override
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public void delete(@PathVariable long id) {
         log.info(LoggingMessages.DELETE_BY_ID.toString(), id);
         service.delete(id);

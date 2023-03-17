@@ -9,6 +9,6 @@ import ru.yandex.practicum.filmorate.storage.FilmStorage;
  * Film storage in memory
  * @author Evgeniy Lee
  */
-@Component
+@Component("inMemoryFilmStorage")
 public class InMemoryFilmStorage extends DataStorage<Film> implements FilmStorage {
 }

@@ -31,6 +31,10 @@ public class Film extends Data {
     // Film duration in minutes
     @PositiveOrZero(message = ExceptionMessages.FILM_DURATION_NEGATIVE)
     private long duration;
+    // MPA
+    private Mpa mpa;
+    // Genres
+    private Set<Genre> genres = new HashSet<>();
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private final Set<Long> userIds = new HashSet<>();

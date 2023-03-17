@@ -1,30 +1,30 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.dao;
 
 import ru.yandex.practicum.filmorate.model.Film;
 import java.util.List;
 
 /**
- * FilmService interface provides additional functions for films
+ * Film DAO interface provides methods for films.
  * @author Evgeniy Lee
  */
-public interface FilmService extends Service<Film> {
+public interface FilmDao {
     /**
      * Add like to film
      * @param id film ID
-     * @param userId user ID who sent like
+     * @param userId user ID who likes film
      */
     void addLike(long id, long userId);
 
     /**
-     * Remove like from film
+     * Remove like film
      * @param id film ID
-     * @param userId user ID who sent like
+     * @param userId user ID who removes like
      */
     void removeLike(long id, long userId);
 
     /**
-     * Get list of popular films
-     * @param count popular film count
+     * Get count popular films
+     * @param count film count
      * @return list of popular films
      */
     List<Film> getPopular(int count);

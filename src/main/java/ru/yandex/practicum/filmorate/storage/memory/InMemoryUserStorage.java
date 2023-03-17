@@ -9,6 +9,6 @@ import ru.yandex.practicum.filmorate.storage.UserStorage;
  * User storage in memory
  * @author Evgeniy Lee
  */
-@Component
+@Component("inMemoryUserStorage")
 public class InMemoryUserStorage extends DataStorage<User> implements UserStorage {
 }
